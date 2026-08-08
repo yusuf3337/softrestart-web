@@ -1,41 +1,62 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --color-background: var(--bg);
-  --color-foreground: var(--text-main);
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-background: #0b0d10;
+  --color-foreground: #e6e7e9;
+  --color-elevated: #101318;
+  --color-muted: #7d828b;
+  --color-faint: #4a4e56;
+  --color-line: #20242b;
+  --color-line-strong: #2c313a;
+  --color-accent: #e0a458;
+  --color-accent-dim: #8a6a3a;
 }
 
 :root {
-  --bg: #0b0f19;
-  --bg-soft: #111827;
-  --bg-card: #161e2e;
-  --bg-card-hover: #1e293b;
-  --text-main: #f8fafc;
-  --text-sub: #94a3b8;
-  --text-muted: #64748b;
-  --border-line: #1f2937;
-  --header-bg: rgba(11, 15, 25, 0.85);
-  --header-border: #1f2937;
+  color-scheme: dark;
 }
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
 }
 
 html,
 body {
   min-height: 100%;
   overflow-x: hidden;
-  background-color: #0b0f19;
-  color: #f8fafc;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
 
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #0b0d10;
+}
+
+/* Terminal blinking caret */
+@keyframes caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.caret-blink {
+  animation: caret-blink 1.1s step-end infinite;
+}
+
+/* Hairline grid backdrop, used sparingly */
+.grid-backdrop {
+  background-image:
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 72px 72px;
 }
 
 @media (prefers-reduced-motion: reduce) {

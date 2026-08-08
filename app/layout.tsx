@@ -1,16 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "./context/AppContext";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Softrestart — Software & Innovation Studio",
-  description: "Transforming ideas into high-performing digital products. Web, Mobile, SaaS development and technical consulting.",
+  title: "Softrestart — Yazılım & İnovasyon Stüdyosu",
+  description:
+    "Fikirleri yüksek performanslı dijital ürünlere dönüştüren remote-first mühendislik stüdyosu. Web, Mobil, SaaS geliştirme ve teknik danışmanlık.",
 };
 
 export default function RootLayout({
@@ -19,8 +27,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="tr" className={`${inter.variable} dark h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#0b0f19] text-slate-100 antialiased">
+    <html
+      lang="tr"
+      className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased bg-background`}
+    >
+      <body className="min-h-full flex flex-col bg-background text-foreground antialiased font-sans">
         <AppProvider>{children}</AppProvider>
       </body>
     </html>

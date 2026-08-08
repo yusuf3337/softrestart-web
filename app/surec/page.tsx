@@ -4,7 +4,10 @@ import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import TerminalLabel from '../components/TerminalLabel';
 import { useApp } from '../context/AppContext';
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 interface StepData {
   num: string;
@@ -21,24 +24,21 @@ function StepNumber({ num, inView }: { num: string; inView: boolean }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: inView ? 1 : 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="absolute -left-4 -top-8 font-black leading-none text-slate-800/60"
+        className="absolute -left-2 -top-10 font-mono font-extrabold leading-none text-line-strong/70"
         style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize: 'clamp(8rem, 20vw, 16rem)',
-          letterSpacing: '-0.05em',
+          fontSize: 'clamp(7rem, 18vw, 14rem)',
+          letterSpacing: '-0.06em',
           zIndex: 0,
-          userSelect: 'none',
         }}
       >
         {num}
       </motion.span>
 
       <motion.span
-        initial={{ opacity: 0, x: -16 }}
-        animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -16 }}
-        transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 font-black text-lg md:text-xl tracking-widest text-[#60a5fa]"
-        style={{ fontFamily: "'Inter', sans-serif" }}
+        initial={{ opacity: 0, x: -12 }}
+        animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -12 }}
+        transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
+        className="relative z-10 font-mono font-bold text-lg tracking-widest text-accent"
       >
         {num}
       </motion.span>
@@ -54,7 +54,7 @@ function StepBlock({ step }: { step: StepData }) {
   return (
     <div
       ref={ref}
-      className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 py-20 md:py-28"
+      className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 py-16 md:py-24 border-b border-line"
     >
       <div className="lg:col-span-1 flex items-start">
         <StepNumber num={step.num} inView={inView} />
@@ -66,12 +66,8 @@ function StepBlock({ step }: { step: StepData }) {
             initial={{ y: '105%' }}
             animate={{ y: inView ? 0 : '105%' }}
             transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-black leading-tight text-slate-100"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: 'clamp(2.25rem, 6vw, 4.25rem)',
-              letterSpacing: '-0.035em',
-            }}
+            className="font-mono font-bold leading-tight text-foreground tracking-tight"
+            style={{ fontSize: 'clamp(2rem, 5vw, 3.75rem)', letterSpacing: '-0.04em' }}
           >
             {t(step.titleKey)}
           </motion.h2>
@@ -81,10 +77,10 @@ function StepBlock({ step }: { step: StepData }) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 10 }}
           transition={{ duration: 0.5, delay: 0.22 }}
-          className="text-lg md:text-xl font-medium mb-7 italic text-slate-400"
-          style={{ fontFamily: "'Inter', sans-serif" }}
+          className="font-mono text-base md:text-lg mb-8 text-accent"
         >
-          &ldquo;{t(step.taglineKey)}&rdquo;
+          <span className="text-faint">// </span>
+          {t(step.taglineKey)}
         </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
@@ -92,8 +88,7 @@ function StepBlock({ step }: { step: StepData }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: inView ? 1 : 0 }}
             transition={{ duration: 0.55, delay: 0.3 }}
-            className="lg:col-span-2 text-base md:text-lg leading-relaxed text-slate-300"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+            className="lg:col-span-2 text-base md:text-lg leading-relaxed text-muted max-w-2xl"
           >
             {t(step.detailKey)}
           </motion.p>
@@ -102,13 +97,10 @@ function StepBlock({ step }: { step: StepData }) {
             initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 12 }}
             transition={{ duration: 0.5, delay: 0.35 }}
-            className="p-7 rounded-2xl bg-[#161e2e] border border-[#1f2937]"
+            className="border-l border-line pl-6"
           >
-            <p
-              className="text-xs font-bold uppercase tracking-widest mb-4 text-slate-400"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              {t('process.deliverables')}
+            <p className="font-mono text-xs uppercase tracking-widest mb-4 text-faint">
+              <span className="text-accent">#</span> {t('process.deliverables')}
             </p>
             <ul className="flex flex-col gap-2.5">
               {step.deliverablesKeys.map((dk, i) => (
@@ -117,10 +109,9 @@ function StepBlock({ step }: { step: StepData }) {
                   initial={{ opacity: 0, x: 8 }}
                   animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 8 }}
                   transition={{ duration: 0.35, delay: 0.38 + i * 0.05 }}
-                  className="flex items-center gap-2.5 text-sm md:text-base font-semibold text-slate-200"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
+                  className="flex items-center gap-3 font-mono text-sm text-foreground"
                 >
-                  <span className="shrink-0 w-2 h-2 rounded-full bg-[#60a5fa]" />
+                  <span className="text-accent shrink-0">&rsaquo;</span>
                   {t(dk)}
                 </motion.li>
               ))}
@@ -138,8 +129,8 @@ function ProgressBar() {
   const width = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   return (
-    <div ref={ref} className="fixed top-[70px] left-0 right-0 z-40 h-1 bg-slate-900">
-      <motion.div className="h-full bg-blue-500" style={{ width }} />
+    <div ref={ref} className="fixed top-[60px] left-0 right-0 z-40 h-px bg-line">
+      <motion.div className="h-full bg-accent" style={{ width }} />
     </div>
   );
 }
@@ -150,27 +141,22 @@ function PageHeading() {
   const inView = useInView(ref, { once: true });
 
   return (
-    <div ref={ref} className="mb-14 md:mb-20 text-center max-w-4xl mx-auto">
-      <motion.p
+    <div ref={ref} className="mb-12 md:mb-16 max-w-3xl">
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: inView ? 1 : 0 }}
         transition={{ duration: 0.4 }}
-        className="text-xs md:text-sm font-semibold tracking-widest uppercase mb-4 px-4 py-1.5 rounded-full inline-block bg-[#1e293b] text-[#60a5fa] border border-[#334155]"
       >
-        {t('process.badge')}
-      </motion.p>
+        <TerminalLabel caret>{t('process.badge')}</TerminalLabel>
+      </motion.div>
 
-      <div className="overflow-hidden">
+      <div className="overflow-hidden mt-5">
         <motion.h1
           initial={{ y: '110%' }}
           animate={{ y: inView ? 0 : '110%' }}
           transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          className="font-black leading-none tracking-tighter text-slate-100"
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 'clamp(3.5rem, 10vw, 8rem)',
-            letterSpacing: '-0.04em',
-          }}
+          className="font-mono font-extrabold leading-[0.95] tracking-tighter text-foreground text-balance"
+          style={{ fontSize: 'clamp(3rem, 9vw, 6.5rem)', letterSpacing: '-0.05em' }}
         >
           {t('process.title')}
         </motion.h1>
@@ -180,8 +166,7 @@ function PageHeading() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 10 }}
         transition={{ duration: 0.55, delay: 0.25 }}
-        className="mt-6 text-lg md:text-2xl max-w-2xl mx-auto font-normal leading-relaxed text-slate-400"
-        style={{ fontFamily: "'Inter', sans-serif" }}
+        className="mt-6 text-lg md:text-xl max-w-2xl leading-relaxed text-muted text-pretty"
       >
         {t('process.subtitle')}
       </motion.p>
@@ -193,79 +178,48 @@ export default function SurecPage() {
   const { t } = useApp();
 
   const STEPS: StepData[] = [
-    {
-      num: '01',
-      titleKey: 'step.01.title',
-      taglineKey: 'step.01.tagline',
-      detailKey: 'step.01.detail',
-      deliverablesKeys: ['step.01.d1', 'step.01.d2', 'step.01.d3', 'step.01.d4'],
-    },
-    {
-      num: '02',
-      titleKey: 'step.02.title',
-      taglineKey: 'step.02.tagline',
-      detailKey: 'step.02.detail',
-      deliverablesKeys: ['step.02.d1', 'step.02.d2', 'step.02.d3', 'step.02.d4'],
-    },
-    {
-      num: '03',
-      titleKey: 'step.03.title',
-      taglineKey: 'step.03.tagline',
-      detailKey: 'step.03.detail',
-      deliverablesKeys: ['step.03.d1', 'step.03.d2', 'step.03.d3', 'step.03.d4'],
-    },
-    {
-      num: '04',
-      titleKey: 'step.04.title',
-      taglineKey: 'step.04.tagline',
-      detailKey: 'step.04.detail',
-      deliverablesKeys: ['step.04.d1', 'step.04.d2', 'step.04.d3', 'step.04.d4'],
-    },
+    { num: '01', titleKey: 'step.01.title', taglineKey: 'step.01.tagline', detailKey: 'step.01.detail', deliverablesKeys: ['step.01.d1', 'step.01.d2', 'step.01.d3', 'step.01.d4'] },
+    { num: '02', titleKey: 'step.02.title', taglineKey: 'step.02.tagline', detailKey: 'step.02.detail', deliverablesKeys: ['step.02.d1', 'step.02.d2', 'step.02.d3', 'step.02.d4'] },
+    { num: '03', titleKey: 'step.03.title', taglineKey: 'step.03.tagline', detailKey: 'step.03.detail', deliverablesKeys: ['step.03.d1', 'step.03.d2', 'step.03.d3', 'step.03.d4'] },
+    { num: '04', titleKey: 'step.04.title', taglineKey: 'step.04.tagline', detailKey: 'step.04.detail', deliverablesKeys: ['step.04.d1', 'step.04.d2', 'step.04.d3', 'step.04.d4'] },
   ];
 
   return (
     <>
       <Header />
       <ProgressBar />
-      <main className="min-h-screen pt-44 md:pt-56 pb-36 md:pb-48 bg-[#0b0f19] text-slate-100 transition-colors duration-300">
-        <div className="max-w-6xl mx-auto px-6 md:px-12">
+      <main className="min-h-screen pt-36 md:pt-48 pb-28 md:pb-40">
+        <div className="max-w-6xl mx-auto px-6 md:px-10">
           <PageHeading />
 
-          <div className="my-16 h-px bg-slate-800" />
-
-          <div className="divide-y divide-slate-800">
+          <div className="border-t border-line">
             {STEPS.map((step) => (
               <StepBlock key={step.num} step={step} />
             ))}
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-28 p-10 md:p-14 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 bg-[#161e2e] border border-[#1f2937]"
+            transition={{ duration: 0.6, ease: EASE }}
+            className="mt-24 border border-line p-8 md:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8"
           >
             <div>
               <p
-                className="text-2xl md:text-3xl font-black text-slate-100"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  letterSpacing: '-0.025em',
-                }}
+                className="font-mono text-2xl md:text-3xl font-bold text-foreground tracking-tight text-balance"
+                style={{ letterSpacing: '-0.03em' }}
               >
                 {t('process.cta.title')}
               </p>
-              <p className="text-base mt-2 text-slate-400" style={{ fontFamily: "'Inter', sans-serif" }}>
-                {t('process.cta.sub')}
-              </p>
+              <p className="text-base mt-3 text-muted">{t('process.cta.sub')}</p>
             </div>
             <a
               href="/#iletisim"
-              className="shrink-0 px-9 py-4 rounded-2xl font-bold text-base md:text-lg text-white transition-all duration-300 hover:scale-105 shadow-md bg-gradient-to-r from-blue-600 to-blue-700"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              className="group shrink-0 inline-flex items-center gap-2.5 px-7 py-3.5 font-mono text-sm md:text-base text-background bg-accent hover:bg-foreground transition-colors duration-200"
             >
-              {t('process.cta.button')}
+              <span>{t('process.cta.button').replace(' →', '').toLowerCase()}</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
             </a>
           </motion.div>
         </div>

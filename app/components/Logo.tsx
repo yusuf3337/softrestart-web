@@ -10,17 +10,25 @@ interface LogoProps {
 
 export default function Logo({ className = '' }: LogoProps) {
   return (
-    <Link href="/" className={`inline-flex items-center shrink-0 group ${className}`}>
-      <div className="relative w-9 h-9 md:w-10 md:h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+    <Link
+      href="/"
+      className={`group inline-flex items-center gap-2.5 shrink-0 ${className}`}
+      aria-label="Softrestart ana sayfa"
+    >
+      <div className="relative w-7 h-7 flex items-center justify-center transition-transform duration-300 group-hover:rotate-90">
         <Image
-          src="/black-s.PNG"
-          alt="Softrestart"
-          width={40}
-          height={40}
+          src="/white-s.png"
+          alt=""
+          width={28}
+          height={28}
           className="w-full h-full object-contain"
           priority
         />
       </div>
+      <span className="font-mono text-sm font-semibold tracking-tight text-foreground">
+        softrestart
+        <span className="text-accent">_</span>
+      </span>
     </Link>
   );
 }
